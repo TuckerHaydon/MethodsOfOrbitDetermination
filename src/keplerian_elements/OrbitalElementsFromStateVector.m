@@ -179,7 +179,14 @@ function [...
     if orbit_is_circular
         nu = NaN;
     else
-        nu = acos(dot(e_hat, r_hat));
+        tmp = dot(e_hat, r_hat);
+        if abs(tmp) > 1
+            warning("OrbitalElementsFromStateVector: abs(dot(e_hat, r_hat)) > 1 by %0.3e. Clamping to unity. " + ...
+                "This may indicate numerical instabilities, or might simply be a floating point issue.", abs(tmp) - 1);
+            tmp = tmp ./ abs(tmp);
+        end
+
+        nu = acos(tmp);
 
         if dot(r_vec, v_vec) < 0
             nu = 2.0 .* pi - nu;
