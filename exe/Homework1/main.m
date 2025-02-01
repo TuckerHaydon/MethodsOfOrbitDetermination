@@ -88,8 +88,12 @@ acceleration_eci_history = ECISimpleTwoBodyGravitation( ...
     position_eci_history, ...
     gravitational_parameter);
 
-% Plotting
-figure();
+specific_angular_momentum_history = SpecificAngularMomentumFromStateVector( ...
+    position_eci_history, ...
+    velocity_eci_history);
+
+%% Question 4 Plotting
+figure("Position", [100, 100, 900, 900]);
 plot3( ...
     position_eci_history(1, :), ...
     position_eci_history(2, :), ...
@@ -102,7 +106,117 @@ set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
 xlabel("ECI X [m]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
 ylabel("ECI Y [m]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
 zlabel("ECI Z [m]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+title("Orbit", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
 
+figure('Position', [100, 100, 900, 600]);
+scatter3( ...
+    specific_angular_momentum_history(1, :), ...
+    specific_angular_momentum_history(2, :), ...
+    specific_angular_momentum_history(3, :), ...
+    "k.", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+xlabel("X [m^2 / s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Y [m^2 / s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+zlabel("Z [m^2 / s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+title("Specific Angular Momentum", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+
+figure("Position",[100, 100, 1000, 1000]);
+tlt = tiledlayout(3, 3);
+title(tlt, "ECI Position, Velocity, & Acceleration", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+nexttile(1);
+plot(time, position_eci_history(1, :), "k-", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+% xlabel("Time [s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Position [m]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+title("X", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+nexttile(4);
+plot(time, velocity_eci_history(1, :), "k-", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+% xlabel("Time [s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Velocity [m/s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+% title("X", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+nexttile(7);
+plot(time, acceleration_eci_history(1, :), "k-", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+xlabel("Time [s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Acceleration [m/s^2]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+% title("X", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+nexttile(2);
+plot(time, position_eci_history(2, :), "k-", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+% xlabel("Time [s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Position [m]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+title("Y", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+nexttile(5);
+plot(time, velocity_eci_history(2, :), "k-", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+% xlabel("Time [s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Velocity [m/s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+% title("Y", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+nexttile(8);
+plot(time, acceleration_eci_history(2, :), "k-", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+xlabel("Time [s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Acceleration [m/s^2]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+% title("Y", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+nexttile(3);
+plot(time, position_eci_history(3, :), "k-", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+% xlabel("Time [s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Position [m]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+title("Z", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+nexttile(6);
+plot(time, velocity_eci_history(3, :), "k-", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+% xlabel("Time [s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Velocity [m/s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+% title("Z", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+
+nexttile(9);
+plot(time, acceleration_eci_history(3, :), "k-", "LineWidth", 3.0);
+grid on;
+grid minor;
+set(gca, "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+set(gca, "GridAlpha", 0.75, "MinorGridAlpha", 0.5);
+xlabel("Time [s]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+ylabel("Acceleration [m/s^2]", "FontSize", 14, "FontWeight", "Bold", "FontName", "TimesNewRoman");
+% title("Z", "FontSize", 18, "FontWeight", "Bold", "FontName", "TimesNewRoman");
 
 
 %% Question 5: Compute the specific mechanical/potential energy as a function of time.
