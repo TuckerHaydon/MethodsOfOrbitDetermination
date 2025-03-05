@@ -11,9 +11,14 @@ classdef Units
         kilometers = 1e3;
 
         seconds = 1;
+        minutes = 60;
+        hours = 3600;
+        days = 86400;
 
         radians = 1;
         degrees = pi / 180;
+
+        kilograms = 1;
     end
 
     methods(Access = public)

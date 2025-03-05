@@ -1,6 +1,12 @@
 function [gravitation_eci] = ECISimpleTwoBodyGravitation( ...
         position_eci, ...
         gravitational_parameter)
+    % Computes the gravitational acceleration vector for a simple two-body system.
+    % 
+    % - position_eci:
+    %   - (3, :) double.
+    %   - The position at which to calculate the gravitational acceleration vector.
+    %   - Unit m.
     % - gravitational_parameter:
     %   - (1, 1) double.
     %   - The gravitational parameter of the primary body.

@@ -1,0 +1,9 @@
+function [p] = PositionVelocityQuadraticPolyfit( ...
+        time, ...
+        position, ...
+        velocity)
+    % Fits a quadratic polynomial to two position/velocity samples such that the polynomial minimizes the error in a
+    % least-squares sense. Velocity is weighted at 1/10 position.
+
+
+end
