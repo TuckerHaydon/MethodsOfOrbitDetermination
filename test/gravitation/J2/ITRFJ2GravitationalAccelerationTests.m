@@ -1,4 +1,4 @@
-classdef ECIJ2GravitationTests < matlab.unittest.TestCase
+classdef ITRFJ2GravitationalAccelerationTests < matlab.unittest.TestCase
     methods (Test)
         function TestAgainstSymbollicJacobian(testCase)   
             %% Setup
@@ -25,14 +25,14 @@ classdef ECIJ2GravitationTests < matlab.unittest.TestCase
             num_iter = 1e5;
 
             % Calculate random position vectors
-            position_eci = zeros(3, num_iter);
+            position_itrf = zeros(3, num_iter);
             for idx = 1:num_iter
                 % https://math.libretexts.org/Courses/Mount_Royal_University/MATH_2200%3A_Calculus_for_Scientists_II/7%3A_Vector_Spaces/5.7%3A_Cylindrical_and_Spherical_Coordinates
                 theta = 2 * pi * rand();
                 phi   = pi * rand();
                 r     = Re_;
             
-                position_eci(:, idx) = [
+                position_itrf(:, idx) = [
                     r * sin(phi) * cos(theta);
                     r * sin(phi) * sin(theta);
                     r * cos(phi);
@@ -40,22 +40,22 @@ classdef ECIJ2GravitationTests < matlab.unittest.TestCase
             end
 
             % Compute the gravitational acceleration vector with the function
-            [gravitation_eci] = ECIJ2Gravitation( ...
-                position_eci, ...
+            [gravitation_itrf] = ITRFJ2GravitationalAcceleration( ...
+                position_itrf, ...
                 mu_, ...
-                J2_, ...
-                Re_);
+                Re_, ...
+                J2_);
 
             % Compute the gravitational acceleration vector with the symbollic math
-            analytical_gravitation_eci = transpose(jacobian_U_fun( ...
+            analytical_gravitation_itrf = transpose(jacobian_U_fun( ...
                 mu_, ...
                 J2_, ...
                 Re_, ...
-                transpose(position_eci(1, :)), ...
-                transpose(position_eci(2, :)), ...
-                transpose(position_eci(3, :))));
+                transpose(position_itrf(1, :)), ...
+                transpose(position_itrf(2, :)), ...
+                transpose(position_itrf(3, :))));
 
-            differences = gravitation_eci - analytical_gravitation_eci;
+            differences = gravitation_itrf - analytical_gravitation_itrf;
 
             testCase.verifyTrue(all(abs(differences) < 1e-12, 'all')); 
         end

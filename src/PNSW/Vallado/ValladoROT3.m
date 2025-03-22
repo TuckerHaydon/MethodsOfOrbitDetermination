@@ -15,11 +15,11 @@ function [C] = ValladoROT3(theta_deg)
     % References:
     % - Vallado, Fundamentals of Astrodynamics and Applications, 5th edition
     arguments(Input)
-        theta_deg(:, 1) double {mustBeReal, mustBeFinite}
+        theta_deg(:, 1) {mustBeReal, mustBeFinite}
     end
 
     arguments(Output)
-        C(3, 3, :) double {mustBeReal, mustBeFinite}
+        C(3, 3, :) {mustBeReal, mustBeFinite}
     end
 
     % Reshape to row vector.
