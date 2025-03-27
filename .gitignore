@@ -1,0 +1,8 @@
+*.asv
+*.swp
+.DS_store
+*.png
+*.ascii
+*.txt
+*.pdf
+*.mat

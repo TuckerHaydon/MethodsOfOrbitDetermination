@@ -1,0 +1,73 @@
+classdef ApparentRangeAndRangeRateTests < matlab.unittest.TestCase
+    methods (Test)
+        function TestBasicMotionAlongLineOfSight(testCase) 
+            satellite_position_at_tx_gcrf = transpose([2 * 6.378e6, 0, 0]);
+            satellite_velocity_at_tx_gcrf = transpose([100, 0, 0]);
+
+            station_position_at_rx_gcrf = transpose([6.378e6, 0, 0]);
+            station_velocity_at_rx_gcrf = transpose([-50, 0, 0]);
+
+            light_time = vecnorm(station_position_at_rx_gcrf - satellite_position_at_tx_gcrf, 2, 1) / Constants.SPEED_OF_LIGHT;
+
+            satellite_position_at_rx_gcrf = satellite_position_at_tx_gcrf + satellite_velocity_at_tx_gcrf * light_time;
+            satellite_velocity_at_rx_gcrf = satellite_velocity_at_tx_gcrf;
+
+            threshold = 1e-9 / Constants.SPEED_OF_LIGHT;
+
+            [apparent_range, apparent_range_rate] = ApparentRangeAndRangeRate( ...
+                satellite_position_at_rx_gcrf, ...
+                satellite_velocity_at_rx_gcrf, ...
+                station_position_at_rx_gcrf, ...
+                station_velocity_at_rx_gcrf, ...
+                "threshold", threshold);
+
+            expected_apparent_range = light_time * Constants.SPEED_OF_LIGHT;
+            expected_apparent_range_rate = 150;
+
+            testCase.verifyEqual( ...
+                apparent_range, ...
+                expected_apparent_range, ...
+                'AbsTol', 1e-9); 
+
+            testCase.verifyEqual( ...
+                apparent_range_rate, ...
+                expected_apparent_range_rate, ...
+                'AbsTol', 1e-9); 
+        end
+
+        function TestBasicMotionAcrossLineOfSight(testCase) 
+            satellite_position_at_tx_gcrf = transpose([2 * 6.378e6, 0, 0]);
+            satellite_velocity_at_tx_gcrf = transpose([0, 100, 0]);
+
+            station_position_at_rx_gcrf = transpose([6.378e6, 0, 0]);
+            station_velocity_at_rx_gcrf = transpose([-50, 0, 0]);
+
+            light_time = vecnorm(station_position_at_rx_gcrf - satellite_position_at_tx_gcrf, 2, 1) / Constants.SPEED_OF_LIGHT;
+
+            satellite_position_at_rx_gcrf = satellite_position_at_tx_gcrf + satellite_velocity_at_tx_gcrf * light_time;
+            satellite_velocity_at_rx_gcrf = satellite_velocity_at_tx_gcrf;
+
+            threshold = 1e-9 / Constants.SPEED_OF_LIGHT;
+
+            [apparent_range, apparent_range_rate] = ApparentRangeAndRangeRate( ...
+                satellite_position_at_rx_gcrf, ...
+                satellite_velocity_at_rx_gcrf, ...
+                station_position_at_rx_gcrf, ...
+                station_velocity_at_rx_gcrf, ...
+                "threshold", threshold);
+
+            expected_apparent_range = light_time * Constants.SPEED_OF_LIGHT;
+            expected_apparent_range_rate = 50;
+
+            testCase.verifyEqual( ...
+                apparent_range, ...
+                expected_apparent_range, ...
+                'AbsTol', 1e-9); 
+
+            testCase.verifyEqual( ...
+                apparent_range_rate, ...
+                expected_apparent_range_rate, ...
+                'AbsTol', 1e-9); 
+        end
+    end
+end
